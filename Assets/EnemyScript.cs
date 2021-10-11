@@ -12,7 +12,11 @@ public class EnemyScript : MonoBehaviour
         shootDelay = 2f;
     }
     void Update(){
-        
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, Mathf.Infinity);
+        if(hit.collider.gameObject.CompareTag("Enemy")) canShoot = false;
+        else {
+            canShoot = true;
+        }
         StartCoroutine(Shoot());     
     }
 
@@ -20,8 +24,13 @@ public class EnemyScript : MonoBehaviour
         Debug.DrawRay(transform.position, Vector2.down);
     }
     IEnumerator Shoot(){
+       if(canShoot == true){
         yield return new WaitForSeconds(shootDelay);
         Debug.Log("Enemy has shot!");
         Instantiate(bullet, transform.position,transform.rotation);
+       } else {
+           Debug.Log("Can't shoot blocked by friend");
+       }
+       
     }
 }
