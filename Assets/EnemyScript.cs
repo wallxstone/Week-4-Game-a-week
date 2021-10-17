@@ -4,33 +4,37 @@ using UnityEngine;
 
 public class EnemyScript : MonoBehaviour
 {
-   float shootDelay;
-   public bool canShoot;
-   
-   public GameObject bullet;
+    public float distanceFromPlayer;
+    public float moveSpeed;
+    public float explosionRadius;
+
+    Transform player;
+
     void OnEnable(){
-        shootDelay = 2f;
-    }
-    void Update(){
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, Mathf.Infinity);
-        if(hit.collider.gameObject.CompareTag("Enemy")) canShoot = false;
-        else {
-            canShoot = true;
-        }
-        StartCoroutine(Shoot());     
+        player = FindObjectOfType<SpaceShipController>().transform;
+        moveSpeed = 10f;
+        explosionRadius = 1.2f;
     }
 
-    private void OnDrawGizmos() {
-        Debug.DrawRay(transform.position, Vector2.down);
+    void Update(){
+        distanceFromPlayer = Vector3.Distance(transform.position, player.position);
+        transform.position = Vector3.Lerp(transform.position, player.position, distanceFromPlayer / moveSpeed * Time.deltaTime);
+        Explode();
     }
-    IEnumerator Shoot(){
-       if(canShoot == true){
-        yield return new WaitForSeconds(shootDelay);
-        Debug.Log("Enemy has shot!");
-        Instantiate(bullet, transform.position,transform.rotation);
-       } else {
-           Debug.Log("Can't shoot blocked by friend");
-       }
-       
+
+    void Explode()
+    {
+        if(distanceFromPlayer <= explosionRadius){
+            //Explode
+            Destroy(gameObject);
+        }
     }
+    void OnDrawGizmos(){
+       Gizmos.DrawWireSphere(transform.position, explosionRadius);
+    }
+
+   void OnDisable(){
+        GameManager.current.enemiesSpawned.Remove(gameObject);
+        Destroy(gameObject);
+   }
 }

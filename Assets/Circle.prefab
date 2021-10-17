@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 859335337847927560}
   - component: {fileID: -1768526195185436053}
   - component: {fileID: 2519380899823818203}
+  - component: {fileID: 3278871045358209776}
   m_Layer: 0
   m_Name: Circle
   m_TagString: Enemy
@@ -113,8 +114,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3c8b5303c2afab4cb9a7bfa52b9065d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canShoot: 0
-  bullet: {fileID: 300883235975785401, guid: dd7482ac033bc414f94db1ccf169ed10, type: 3}
+  distanceFromPlayer: 0
+  moveSpeed: 0
+  explosionRadius: 0.3
+--- !u!50 &3278871045358209776
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 300883235975785401}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_Interpolate: 1
+  m_SleepingMode: 1
+  m_CollisionDetection: 1
+  m_Constraints: 0
 --- !u!1 &5022089732820671604
 GameObject:
   m_ObjectHideFlags: 0
